@@ -8,20 +8,31 @@ import { theme } from "../../theme";
 type HeaderProps ={
   task: string,
   onChangeText: (task: string) => void,
-  onPress: () => void
+  onPress: () => void,
+  textInputRef: React.RefObject<TextInput>
 }
 
-export function Header({task, onChangeText,onPress} :HeaderProps){
+export function Header({task, textInputRef , onChangeText,onPress} :HeaderProps){
   return(
     <View style={styles.container}>
       <Image source={logoImage} />
       <View style={styles.form}>
         <TextInput 
-          style={styles.input} 
+          style={[
+            styles.input, 
+            textInputRef.current?.isFocused() && task
+              ? styles.inputBorder
+              : null
+          ]} 
           placeholder="Adicione uma nova tarefa" 
           placeholderTextColor={theme.colors.base.gray300}
           value={task}
           onChangeText={onChangeText}
+          ref={textInputRef}
+          autoCorrect={false}
+          onSubmitEditing={onPress}
+          returnKeyType="done"
+
         />
         <TouchableOpacity 
           style={styles.button} 

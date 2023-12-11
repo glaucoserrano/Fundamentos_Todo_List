@@ -34,6 +34,9 @@ export const styles = StyleSheet.create({
     borderWidth:1,
     marginRight:4
   },
+  inputBorder:{
+    borderColor: theme.colors.brand.purple,
+  },
   button:{
     height:54,
     width:54,

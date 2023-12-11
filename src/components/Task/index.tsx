@@ -4,14 +4,19 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 import { theme } from "../../theme";
 import { TaskDTO } from "../../dtos/taskDTO";
 
-export function Task({title,isCompleted}:TaskDTO){
+type TaskProps = TaskDTO & {
+  onTaskDone: (id:string) => void;
+  onTaskDelete: (id:string) => void;
+}
+
+export function Task({id, title,isCompleted, onTaskDone, onTaskDelete}:TaskProps){
   return(
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onTaskDone(id)}>
         <MaterialCommunityIcons
           name={isCompleted ? "checkbox-marked-circle-outline" : "checkbox-blank-circle-outline"} 
           size={22}
-          color={isCompleted ? theme.colors.brand.purple :  theme.colors.brand.blue} 
+          color={isCompleted ? theme.colors.brand.purple :  theme.colors.brand.blue}
         />
       </TouchableOpacity>
 
@@ -19,7 +24,7 @@ export function Task({title,isCompleted}:TaskDTO){
         <Text style={isCompleted ? styles.textDone : styles.textCreated}>{title}</Text>
       </View>
       
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onTaskDelete(id)}>
         <MaterialCommunityIcons 
           name="trash-can-outline" 
           size={20}
